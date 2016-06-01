@@ -2,6 +2,8 @@ import angular from 'angular';
 import angularMeteor from 'angular-meteor';
 import uiRouter from 'angular-ui-router';
 
+import { Meteor } from 'meteor/meteor';
+
 import template from './partyDetails.html'
 import { Parties } from '../../../api/parties';
 
@@ -32,7 +34,7 @@ class PartyDetails {
           }
         }, (error) => {
           if (error) {
-            console.log('Oops, unable to update the party...');
+            console.log('Oops, unable to update the party...', error);
           } else {
             console.log('Done!');
           }
@@ -56,6 +58,15 @@ function config($stateProvider) {
 
     $stateProvider.state('partyDetails', {
         url: '/parties/:partyId',
-        template: '<party-details></party-details>'
+        template: '<party-details></party-details>',
+        resolve: {
+            currentUser($q) {
+                if (Meteor.userId() === null) {
+                    return $q.reject('AUTH_REQUIRED');
+                } else {
+                    return $q.resolve();
+                }
+            }
+        }
     })
 }

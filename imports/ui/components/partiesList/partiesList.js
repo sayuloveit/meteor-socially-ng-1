@@ -31,4 +31,14 @@ export default angular.module(name, [
   template,
   controllerAs: name,
   controller: PartiesList
-});
+})
+    .config(config);
+
+function config($stateProvider) {
+    'ngInject';
+    $stateProvider
+        .state('parties', {
+            url: '/parties',
+            template: '<parties-list></parties-list>'
+        })
+}

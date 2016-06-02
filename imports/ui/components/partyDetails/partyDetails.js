@@ -5,7 +5,7 @@ import uiRouter from 'angular-ui-router';
 import { Meteor } from 'meteor/meteor';
 
 import template from './partyDetails.html'
-import { Parties } from '../../../api/parties';
+import { Parties } from '../../../api/parties/index';
 
 class PartyDetails {
     constructor($stateParams, $scope, $reactive) {
@@ -15,11 +15,17 @@ class PartyDetails {
 
         this.partyId = $stateParams.partyId;
 
+        this.subscribe('parties');
+        this.subscribe('users');
+
         this.helpers({
             party() {
                 return Parties.findOne({
                     _id: $stateParams.partyId
                 })
+            },
+            users() {
+                return Meteor.users.find({});
             }
         });
     }
@@ -30,7 +36,8 @@ class PartyDetails {
         }, {
           $set: {
             name: this.party.name,
-            description: this.party.description
+            description: this.party.description,
+            public: this.party.public
           }
         }, (error) => {
           if (error) {
@@ -45,7 +52,8 @@ class PartyDetails {
 const name = 'partyDetails';
 
 export default angular.module(name, [
-    angularMeteor
+    angularMeteor,
+    uiRouter
 ]).component(name, {
       template,
       controllerAs: name,

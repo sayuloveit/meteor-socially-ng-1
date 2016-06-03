@@ -42,7 +42,8 @@ describe('PartyDetails', () => {
           $set: {
             name: party.name,
             description: party.description,
-            public: party.public
+            public: party.public,
+            location: party.location
           }
         });
       });

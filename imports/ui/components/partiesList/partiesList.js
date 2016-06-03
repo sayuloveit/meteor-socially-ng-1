@@ -5,6 +5,7 @@ import uiRouter from 'angular-ui-router';
 import template from './partiesList.html';
 import { Parties } from '../../../api/parties';
 import { name as PartiesSort } from '../partiesSort/partiesSort';
+import { name as PartiesMap } from '../partiesMap/partiesMap';
 import { name as PartyAdd } from '../partyAdd/partyAdd';
 import { name as PartyRemove } from '../partyRemove/partyRemove';
 import { name as PartyCreator } from '../partyCreator/partyCreator';
@@ -69,6 +70,7 @@ export default angular.module(name, [
   uiRouter,
   PartyAdd,
   PartiesSort,
+  PartiesMap,
   PartyRemove,
   PartyCreator,
   PartyRsvp,

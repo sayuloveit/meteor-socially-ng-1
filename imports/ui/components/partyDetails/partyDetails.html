@@ -10,6 +10,8 @@ The party you selected is:
 
 <party-uninvited party="partyDetails.party" ng-show="partyDetails.canInvite()"></party-uninvited>
 
+<party-map location="partyDetails.party.location"></party-map>
+
 <ul>
     Users:
     <li ng-repeat="user in partyDetails.users">

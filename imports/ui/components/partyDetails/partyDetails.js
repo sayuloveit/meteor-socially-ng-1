@@ -5,7 +5,7 @@ import uiRouter from 'angular-ui-router';
 import { Meteor } from 'meteor/meteor';
 
 import template from './partyDetails.html'
-import { Parties } from '../../../api/parties/index';
+import { Parties } from '../../../api/parties';
 
 class PartyDetails {
     constructor($stateParams, $scope, $reactive) {

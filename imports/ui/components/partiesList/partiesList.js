@@ -1,8 +1,11 @@
 import angular from 'angular';
 import angularMeteor from 'angular-meteor';
+import uiRouter from 'angular-ui-router';
+import utilsPagination from 'angular-utils-pagination';
 
 import template from './partiesList.html';
-import { Parties } from '../../../api/parties/index';
+import { Parties } from '../../../api/parties';
+import { name as PartiesSort } from '../partiesSort/partiesSort';
 import { name as PartyAdd } from '../partyAdd/partyAdd';
 import { name as PartyRemove } from '../partyRemove/partyRemove';
 
@@ -12,13 +15,44 @@ class PartiesList {
 
     $reactive(this).attach($scope);
 
-    this.subscribe('parties');
+    this.perPage = 3;
+    this.page = 1;
+    this.sort = {
+      name: 1
+    };
+
+    this.subscribe('parties', () => [{
+        limit: parseInt(this.perPage),
+        skip: parseInt((this.getReactively('page') - 1) * this.perPage),
+        sort: this.getReactively('sort')
+    }, this.getReactively('searchText')
+    ]);
 
     this.helpers({
-      parties() {
-        return Parties.find({});
-      }
+        parties() {
+            return Parties.find({}, {
+                sort: this.getReactively('sort')
+            });
+        },
+        isLoggedIn() {
+            return !!Meteor.userId();
+        },
+        currentUserId() {
+            return Meteor.userId();
+        }
     });
+  }
+
+  isOwner(party) {
+    return this.isLoggedIn && party.owner === this.currentUserId;
+  }
+
+  pageChanged(newPage) {
+    this.page = newPage;
+  }
+
+  sortChanged(sort) {
+    this.sort = sort;
   }
 }
 
@@ -27,7 +61,10 @@ const name = 'partiesList';
 // create a module
 export default angular.module(name, [
   angularMeteor,
+  uiRouter,
+  utilsPagination,
   PartyAdd,
+  PartiesSort,
   PartyRemove
 ]).component(name, {
   template,

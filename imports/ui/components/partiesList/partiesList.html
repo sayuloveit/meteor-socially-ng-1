@@ -14,7 +14,8 @@
     </a>
     <p>{{party.description}}</p>
     <party-remove party="party" ng-show="partiesList.isOwner(party)"></party-remove>
-    <party-rsvp party="party" ng-show="partiesList.isLoggedIn"></party-rsvp>
+    <party-creator party="party"></party-creator>
+    <!-- <party-rsvp party="party" ng-show="partiesList.isLoggedIn"></party-rsvp> -->
     <div ng-hide="partiesList.isLoggedIn">
       <i>Sign in to RSVP for this party.</i>
     </div>
